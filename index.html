@@ -35,13 +35,33 @@
                     font: { family: "Arial", size: 11, color: ["black"] }
                 }
                 }];
-           
-                Plotly.newPlot('tesla_table', tableData)
+
+                const lineChartData = [{
+                    x: dates,
+                    y: tslaValues,
+                    
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { color: 'blue' },
+                    marker: { color: 'red' },
+                    name: 'TSLA'
+                }];
+                
+
+                Plotly.newPlot('tesla_chart', lineChartData, {
+                    title: 'TSLA datum tegen prijs',
+                    xaxis: { title: 'Date' },
+                    yaxis: { title: 'Price (TSLA)' }
+                })
                 .then(()=> console.log("plotted succesfully"))
                 .catch(e => console.log("plotting went wrong with:"+ e))
-        }
 
-        
+                Plotly.newPlot('tesla_table', tableData,{
+                    title : 'TSLA datum en prijs',
+                })
+                .then(()=> console.log("plotted succesfully"))
+                .catch(e => console.log("plotting went wrong with:"+ e))
+        }       
 
     </script>
 </head>
@@ -50,6 +70,7 @@
 <body>
     <div>
         <div id="tesla_table"></div>
+        <div id="tesla_chart"></div>
         <div>
             <a>Start datum</a>
             <input id="input_start_date" type="date">
