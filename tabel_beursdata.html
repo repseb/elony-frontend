@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <title>Elony</title>
+
+    <!-- Externe css-file inladen met LinkedIn font -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+      // Bypass een actie om en de tabel te laden
+      window.onload = function() {
+        tabeltonen(); 
+      };
+
+      function tabeltonen(){
+        fetch("http://127.0.0.1:5000/tabel_tesla_beursdata")
+        .then(r => r.json())
+        .then(d => tabelnaarHTML(d))
+        .catch(err => console.error("Error ophalen data:", err)); // Error handling
+      };
+
+      function tabelnaarHTML(d){
+        // Extraheer de data
+        data = d.parsed
+
+        // Converteer timestamps naar leesbare data
+        const dates = data.map(entry => new Date(entry.Date).toLocaleDateString());
+        const tslaValues = data.map(entry => entry.TSLA);
+
+        // Maak tabeldata voor Plotly
+        const tabelData = {
+          type: 'table',
+          header: {
+              values: ["Datum", "TESLA beurswaarde"],  // Column headers
+              align: "center"
+          },
+          cells: {
+              values: [dates, tslaValues],
+              align: "center"
+          }
+        };
+
+        // Plot de tabel met Plotly
+        Plotly.newPlot('tabelbeursdata', [tabelData])
+          .then(() => console.log("Tabel succesvol gerendered"))
+          .catch(err => console.error("Error in het renderen van Plotly tabel:", err));
+        
+      }
+    </script>
+
+  </head>
+  <body>
+    <main>
+        <h1>Welkom bij Elony!</h1>  
+    <br>
+    <div id="tabelbeursdata"></div>
+  </body>
+</html>
