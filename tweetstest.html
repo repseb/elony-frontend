@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elon Twitter Analyse</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Elon Twitter Analyse</h1>
+    <div id="plotly-table"></div>
+
+    <script>
+        // Haal data op van de backend
+        fetch("http://127.0.0.1:5000/ELONTWITTERANALYSE")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Netwerkresponse was niet ok: " + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Verwerk de data voor de Plotly-tabel
+                const dates = data.map(row => row.date);
+                const times = data.map(row => row.time);
+                const tweets = data.map(row => row.tweet);
+
+                // Maak een Plotly-tabel
+                const tableData = [{
+                    type: 'table',
+                    header: {
+                        values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>"],
+                        align: 'center',
+                        fill: { color: 'lightblue' },
+                        font: { size: 14 }
+                    },
+                    cells: {
+                        values: [dates, times, tweets],
+                        align: 'left',
+                        fill: { color: 'lightgray' },
+                        font: { size: 12 }
+                    }
+                }];
+
+                // Render de tabel
+                Plotly.newPlot('plotly-table', tableData);
+            })
+            .catch(error => {
+                console.error("Fout bij ophalen data:", error);
+                document.getElementById('plotly-table').innerHTML = "<p>Er is een fout opgetreden bij het ophalen van de data.</p>";
+            });
+    </script>
+</body>
+</html>
