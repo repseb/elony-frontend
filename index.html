@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+
+    <script>
+        function load_date_range(){
+            start_date = document.getElementById('input_start_date').value
+            end_date = document.getElementById('input_end_date').value
+            url = "http://127.0.0.1:5000/tabel_tesla_beursdata/"+ start_date + "/" + end_date
+            fetch(url)
+            .then(r => r.json())
+            .then(r => populate_plotly(r))
+        }
+    </script>
+    <script>
+        function populate_plotly(input){
+
+            const dates = Object.values(input.Date).map(timestamp => new Date(timestamp).toISOString().split('T')[0]);
+            const tslaValues = Object.values(input.TSLA).map(value => value.toFixed(2)); 
+
+            const tableData = [{
+                type: 'table',
+                header: {
+                    values: [["<b>Date</b>"], ["<b>TSLA</b>"]],
+                    align: "center",
+                    line: { width: 1, color: 'black' },
+                    fill: { color: 'grey' },
+                    font: { family: "Arial", size: 12, color: "white" }
+                },
+                cells: {
+                    values: [dates, tslaValues],
+                    align: "center",
+                    line: { color: "black", width: 1 },
+                    fill: { color: ['white', 'lightgrey'] },
+                    font: { family: "Arial", size: 11, color: ["black"] }
+                }
+                }];
+           
+                Plotly.newPlot('tesla_table', tableData)
+                .then(()=> console.log("plotted succesfully"))
+                .catch(e => console.log("plotting went wrong with:"+ e))
+        }
+
+        
+
+    </script>
+</head>
+
+</head>
+<body>
+    <div>
+        <div id="tesla_table"></div>
+        <div>
+            <a>Start datum</a>
+            <input id="input_start_date" type="date">
+        </div>
+        <div>
+            <a>Eind datum</a>
+            <input id="input_end_date" type="date">
+        </div>
+        <div>
+            <button  onclick="load_date_range()">Update tabel</button>
+        </div>
+    </div>
+</body>
