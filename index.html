@@ -1,7 +1,68 @@
 <!DOCTYPE html>
 <head>
+    <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 
+    <!-- DBD001: Tabel Kate en Jacobine == Overzichtstabel meetpunt per maand -->
+    <script>
+      // Bypass een actie om en de tabel te laden
+      window.onload = function() {
+        tabeltonen(); 
+      };
+
+      function tabeltonen(){
+        fetch("http://127.0.0.1:5000/tabel_tesla_beursdata")
+        .then(r => r.json())
+        .then(d => tabelnaarHTML(d))
+        .catch(err => console.error("Error ophalen data:", err)); // Error handling
+      };
+
+      function tabelnaarHTML(d){
+        // Extraheer de data
+        data = d.parsed
+
+        // Converteer timestamps naar leesbare data
+        const dates = data.map(entry => new Date(entry.Date).toLocaleDateString());
+        const tslaValues = data.map(entry => entry.TSLA);
+
+        // Maak tabeldata voor Plotly
+        const tabelData = {
+          type: 'table',
+          header: {
+              values: ["Datum", "TESLA beurswaarde"],  // Column headers
+              align: "center"
+          },
+          cells: {
+              values: [dates, tslaValues],
+              align: "center"
+          }
+        };
+
+        // Plot de tabel met Plotly
+        Plotly.newPlot('tabelbeursdata', [tabelData])
+          .then(() => console.log("Tabel succesvol gerendered"))
+          .catch(err => console.error("Error in het renderen van Plotly tabel:", err));
+        
+      }
+    </script>
+
+    <!-- DBD002: grafiek Kate en Jacobine == Grafiek met matplotlib -->
+    <script>
+        function visualisatie_matplotlib_grafiek() {
+            fetch("http://127.0.0.1:5000/lijngrafiek_beursdata_matplotlib") // fetch link 
+                .then(response => response.blob())  // Uitleg blob zie google doc met notities
+                .then(blob => {
+                    let imgURL = URL.createObjectURL(blob);
+                    let imgElement = document.createElement("img");
+                    imgElement.src = imgURL;
+                    imgElement.alt = "Lijngrafiek Beursdata";
+                    document.getElementById("lijngrafiek_beursdata").appendChild(imgElement);
+                })
+        }
+        visualisatie_matplotlib_grafiek();
+    </script>
+    
+    <!-- Tabel Niek == Interactieve tabel -->
     <script>
         function load_date_range(){
             start_date = document.getElementById('input_start_date').value
@@ -64,11 +125,29 @@
         }       
 
     </script>
+    
 </head>
 
 </head>
 <body>
+    <main>
+        <h1>Welkom bij Elony!</h1> 
+        <br>
+        <p> 
+            Op deze pagina vind u informatie over de beursdata van Tesla. 
+            Bovenaan de pagina vind u een overzichtstabel met een meetpunt 
+            per maand van januari 2015 tot en met december. Daaronder vind 
+            u een lijngrafiek van deze data.
+        </p>
+        <div id="tabelbeursdata"></div>
+        <div id="lijngrafiek_beursdata"></div>
     <div>
+        <br>
+        <p> 
+            Onder de overzichtstabel en overzichtsgrafiek vind u een interactieve tabel.
+            In deze tabel kunt u zelf selecteren voor welke periode u de beursdata 
+            wilt bekijken.
+        </p>
         <div id="tesla_table"></div>
         <div id="tesla_chart"></div>
         <div>
