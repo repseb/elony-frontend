@@ -64,67 +64,77 @@
     
     <!-- Tabel Niek == Interactieve tabel -->
     <script>
-        function load_date_range(){
-            start_date = document.getElementById('input_start_date').value
-            end_date = document.getElementById('input_end_date').value
-            url = "http://127.0.0.1:5000/tabel_tesla_beursdata/"+ start_date + "/" + end_date
-            fetch(url)
-            .then(r => r.json())
-            .then(r => populate_plotly(r))
-        }
+      function load_date_range() {
+        start_date = document.getElementById("input_start_date").value;
+        end_date = document.getElementById("input_end_date").value;
+      url =
+          "http://127.0.0.1:5000/tsla/get_by_date_range?start_date=" +
+          start_date +
+          "&end_date=" +
+          end_date;
+        fetch(url)
+          .then((r) => r.json())
+          .then((r) => populate_plotly(r.res));
+      }
     </script>
-    <script>
-        function populate_plotly(input){
+ <script>
+  function populate_plotly(input) {    
+    const dates = [];
+    const tsla = [];
 
-            const dates = Object.values(input.Date).map(timestamp => new Date(timestamp).toISOString().split('T')[0]);
-            const tslaValues = Object.values(input.TSLA).map(value => value.toFixed(2)); 
+    input.forEach(item => {
+      dates.push(item.Date);
+      tsla.push(item.Tsla);
+    });
 
-            const tableData = [{
-                type: 'table',
-                header: {
-                    values: [["<b>Date</b>"], ["<b>TSLA</b>"]],
-                    align: "center",
-                    line: { width: 1, color: 'black' },
-                    fill: { color: 'grey' },
-                    font: { family: "Arial", size: 12, color: "white" }
-                },
-                cells: {
-                    values: [dates, tslaValues],
-                    align: "center",
-                    line: { color: "black", width: 1 },
-                    fill: { color: ['white', 'lightgrey'] },
-                    font: { family: "Arial", size: 11, color: ["black"] }
-                }
-                }];
+    const tableData = [
+      {
+        type: "table",
+        header: {
+          values: [["<b>Date</b>"], ["<b>TSLA</b>"]],
+          align: "center",
+          line: { width: 1, color: "black" },
+          fill: { color: "grey" },
+          font: { family: "Arial", size: 12, color: "white" },
+        },
+        cells: {
+          values: [dates, tsla],
+          align: "center",
+          line: { color: "black", width: 1 },
+          fill: { color: ["white", "lightgrey"] },
+          font: { family: "Arial", size: 11, color: ["black"] },
+        },
+      },
+    ];
 
-                const lineChartData = [{
-                    x: dates,
-                    y: tslaValues,
-                    
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    line: { color: 'blue' },
-                    marker: { color: 'red' },
-                    name: 'TSLA'
-                }];
-                
+    const lineChartData = [
+      {
+        x: dates,
+        y: tsla,
 
-                Plotly.newPlot('tesla_chart', lineChartData, {
-                    title: 'TSLA datum tegen prijs',
-                    xaxis: { title: 'Date' },
-                    yaxis: { title: 'Price (TSLA)' }
-                })
-                .then(()=> console.log("plotted succesfully"))
-                .catch(e => console.log("plotting went wrong with:"+ e))
+        type: "scatter",
+        mode: "lines+markers",
+        line: { color: "blue" },
+        marker: { color: "red" },
+        name: "TSLA",
+      },
+    ];
 
-                Plotly.newPlot('tesla_table', tableData,{
-                    title : 'TSLA datum en prijs',
-                })
-                .then(()=> console.log("plotted succesfully"))
-                .catch(e => console.log("plotting went wrong with:"+ e))
-        }       
+    Plotly.newPlot("tesla_chart", lineChartData, {
+      title: "TSLA datum tegen prijs",
+      xaxis: { title: "Date" },
+      yaxis: { title: "Price (TSLA)" },
+    })
+      .then(() => console.log("plotted succesfully"))
+      .catch((e) => console.log("plotting went wrong with:" + e));
 
-    </script>
+    Plotly.newPlot("tesla_table", tableData, {
+      title: "TSLA datum en prijs",
+    })
+      .then(() => console.log("plotted succesfully"))
+      .catch((e) => console.log("plotting went wrong with:" + e));
+  }
+</script>
     
 </head>
 
