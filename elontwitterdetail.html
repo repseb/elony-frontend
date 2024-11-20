@@ -7,92 +7,45 @@
 
     <title>Elon Twitter Detail</title>
     <script>
-        // Function to fetch tweet content and populate the page
-        function loadTweetContent(tweet_id) {
-            fetch("/tweet/" + tweet_id) // Fetch tweet details from the backend
-            .then(r => r.json()) // Parse the JSON response
+         // Fetchen van tweet inhoud op basis van tweet_id
+         function loadTweetContent(tweet_id) {
+            fetch("http://127.0.0.1:5000/tweet/get_by_id?tweet_id=" + tweet_id) 
+            .then(r => r.json())  
             .then(d => {
-                if (d.success && d.tweetContent) {
-                    // Dynamically update the tweet content
-                    document.getElementById("tweetContent").innerText = d.tweetContent;
+                // Check of tweet valide is
+                if (d.res && d.res.content) {
+                    // Tweet inhoud dynamisch updated in HTML
+                    document.getElementById("tweetContent").innerText = d.res.content;
                 } else {
-                    // Handle error if tweet not found
-                    document.getElementById("tweetContent").innerText = "Tweet not found.";
+                    // Als er geen tweet gevonden wordt, toon dan dat tweet niet gevonden wordt
+                    document.getElementById("tweetContent").innerText = "Tweet niet gevonden.";
                 }
             })
-            .catch(err => {
-                console.error("Error fetching tweet:", err);
-                document.getElementById("tweetContent").innerText = "Failed to load tweet.";
-            });
         }
 
-        // On page load, fetch the tweet content based on the tweet ID
+        // Als de pagina laadt, display dan de tweet 
         window.onload = function() {
-            const tweetId = document.getElementById("tweetId").value; // Get tweet ID
-            loadTweetContent(tweetId); // Load the tweet content
-        }
-
-        // Function to save the tweet by sending a request to the save route
-        function saveTweet(tweet_id) {
-            // Use the Fetch API to send a POST request to the save route
-            fetch("/tweet/save_by_id?tweet_id=" + tweetId, { 
-                method: "POST", 
-            })
-            .then(r => r.json())
-            .then(d => {
-                // If the response is successful, show an alert
-                if (d.success) {
-                    alert("Tweet opgeslagen!");
-                } else {
-                    alert("Oeps. Er ging iets fout bij het opslaan. Probeer het opnieuw.");
-                }
-            })
-            .catch(er => {
-                console.error("Error:", err);
-                alert("Error.");
-            });
-        }
-
-        // Function to check if the tweet has been saved
-        function checkIfSaved(tweet_id) {
-            fetch("/tweet/check_if_saved?tweet_id=" + tweet_id)
-            .then(r => r.json())
-            .then(d => {
-                // Display the result to the user
-                if (d.saved) {
-                    document.getElementById('saveStatus').innerText = "Je hebt deze tweet opgeslaan!";
-                } else {
-                    document.getElementById('saveStatus').innerText = "Je hebt deze tweet niet opgeslaan.";
-                }
-            })
-            .catch(err => {
-                console.error('Error:', err);
-                alert('Error.');
-            });
-        }
-
-        // Initialize the page to check if the tweet is already saved
-        window.onload = function() {
-            const tweetId = document.getElementById('tweetId').value;
-            checkIfSaved(tweetId);  // Check if the tweet is already saved on page load
-        }
+            const tweetId = document.getElementById("tweetId").value;  
+            loadTweetContent(tweetId);  
+        };
     </script>
+
 </head>
+
 <body>
     <h1>Tweet Detail</h1>
     
-    <!-- Assuming you have a tweetId available on your page -->
-    <input type="hidden" id="tweetId" value="12345"> <!-- Example Tweet ID -->
+    <input type="hidden" id="tweetId">
 
     <div>
-        <h2>Tweet Content:</h2>
-        <p id="tweetContent">Tweet aan het laden...</p> <!-- This would be dynamically populated -->
+        <p id="tweetContent">Tweet aan het laden...</p> 
     </div>
 
     <button onclick="saveTweet(document.getElementById('tweetId').value)">Bewaar</button>
     
-    <!-- This will show the save status -->
+    <!-- Of de tweet reeds opgeslagen is. -->
     <p id="saveStatus"></p>
 
 </body>
+
 </html>
