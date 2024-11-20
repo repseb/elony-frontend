@@ -63,7 +63,7 @@
         visualisatie_matplotlib_grafiek();
     </script>
 
-    <!--DBD003, DBD004, DBD006: Script voor interactieve tabel met begin en eind datum en interval-functionaliteit -->
+    <!--DBD003, DBD004, DBD005: Script voor interactieve tabel met begin en eind datum en interval-functionaliteit -->
     <script>
         let volledigeData = []; // Variabele om alle opgehaalde data op te slaan
 
@@ -108,6 +108,7 @@
             }
 
             populate_plotly(gefilterdeData);
+
         }
 
         function populate_plotly(data) {
@@ -132,6 +133,7 @@
                     }
                 }
             ];
+            
 
             // Plot tabel met plotly
             Plotly.newPlot("tesla_table", tableData)
@@ -147,16 +149,16 @@
                     type: "scatter",
                     mode: "lines+markers",
                     line: { color: "blue" },
-                    marker: { color: "red" },
+                    marker: { color: "darkblue" },
                     name: "TSLA",
                 },
                 ];
             
             // Plot grafiek met plotly
             Plotly.newPlot("tesla_chart", lineChartData, {
-                title: "TSLA datum tegen prijs",
-                xaxis: { title: "Date" },
-                yaxis: { title: "Price (TSLA)" },
+                title: "TSLA datum tegen beurswaarde",
+                xaxis: { title: "Datum" },
+                yaxis: { title: "Beurswaarde Tesla" },
                 })
                 .then(() => console.log("plotted succesfully"))
                 .catch((e) => console.log("plotting went wrong with:" + e));
@@ -181,6 +183,7 @@
             In deze tabel kunt u zelf selecteren voor welke periode u de beursdata 
             wilt bekijken.</p>
         <div id="tesla_table"></div>
+        <div id="tesla_chart"></div>
         <div>
             <label for="input_interval">Interval:</label>
             <select id="input_interval" onchange="updateInterval()">
@@ -199,7 +202,7 @@
             <input id="input_end_date" type="date">
         </div>
         <div>
-            <button onclick="load_date_range()">Update tabel</button>
+            <button onclick="load_date_range()">Update tabel en grafiek</button>
         </div>
     </main>
 </body>
