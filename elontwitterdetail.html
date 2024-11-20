@@ -13,9 +13,9 @@
             .then(r => r.json())  
             .then(d => {
                 // Check of tweet valide is
-                if (d.res && d.res.content) {
+                if (d.res && d.res.tweet) {
                     // Tweet inhoud dynamisch updated in HTML
-                    document.getElementById("tweetContent").innerText = d.res.content;
+                    document.getElementById("tweetContent").innerText = d.res.tweet;
                 } else {
                     // Als er geen tweet gevonden wordt, toon dan dat tweet niet gevonden wordt
                     document.getElementById("tweetContent").innerText = "Tweet niet gevonden.";
@@ -35,7 +35,7 @@
 <body>
     <h1>Tweet Detail</h1>
     
-    <input type="hidden" id="tweetId">
+    <input type="hidden" id="tweetId" value="1381273474400800773">
 
     <div>
         <p id="tweetContent">Tweet aan het laden...</p> 
