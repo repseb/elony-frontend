@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+
+    <title>Elon Twitter Detail</title>
+    <script>
+         // Fetchen van tweet inhoud op basis van tweet_id
+         function loadTweetContent(tweet_id) {
+            fetch("http://127.0.0.1:5000/tweet/get_by_id?tweet_id=" + tweet_id) 
+            .then(r => r.json())  
+            .then(d => {
+                // Check of tweet valide is
+                if (d.res && d.res.content) {
+                    // Tweet inhoud dynamisch updated in HTML
+                    document.getElementById("tweetContent").innerText = d.res.content;
+                } else {
+                    // Als er geen tweet gevonden wordt, toon dan dat tweet niet gevonden wordt
+                    document.getElementById("tweetContent").innerText = "Tweet niet gevonden.";
+                }
+            })
+        }
+
+        // Als de pagina laadt, display dan de tweet 
+        window.onload = function() {
+            const tweetId = document.getElementById("tweetId").value;  
+            loadTweetContent(tweetId);  
+        };
+    </script>
+
+</head>
+
+<body>
+    <h1>Tweet Detail</h1>
+    
+    <input type="hidden" id="tweetId">
+
+    <div>
+        <p id="tweetContent">Tweet aan het laden...</p> 
+    </div>
+
+    <button onclick="saveTweet(document.getElementById('tweetId').value)">Bewaar</button>
+    
+    <!-- Of de tweet reeds opgeslagen is. -->
+    <p id="saveStatus"></p>
+
+</body>
+
+</html>
