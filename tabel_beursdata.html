@@ -29,7 +29,7 @@
 
         // Converteer timestamps naar leesbare data
         const dates = data.map(entry => new Date(entry.Date).toLocaleDateString());
-        const tslaValues = data.map(entry => entry.TSLA);
+        const tslaValues = data.map(entry => entry.Tsla);
 
         // Maak tabeldata voor Plotly
         const tabelData = {
