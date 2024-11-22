@@ -10,7 +10,7 @@
             tabeltonen();
         };
 
-        // De Functie tabeltonen() haalt Tesla beursdata op via een API en geeft door aan verwerkfunctie
+        // De Functie tabeltonen() haalt Tesla beursdata op en geeft door aan verwerkfunctie
         function tabeltonen() {
             fetch("http://127.0.0.1:5000/tabel_tesla_beursdata")
                 .then(r => r.json())
@@ -24,8 +24,8 @@
             const data = d.parsed;
 
             // Converteer timestamps naar leesbare data
-            const dates = data.map(entry => new Date(entry.Date).toLocaleDateString());
-            const tslaValues = data.map(entry => entry.TSLA);
+            const dates = data.map(entry => new Date(entry.Date).toLocaleDateString()); // Maakt nieuwe array aan met de functie die in .map staat
+            const tslaValues = data.map(entry => entry.Tsla);
 
             // Maak tabeldata voor Plotly
             const tabelData = {
