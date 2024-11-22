@@ -19,7 +19,7 @@
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(data => { 
                 // Verwerk de data voor de Plotly-tabel
                 const dates = data.map(row => row.date);
                 const times = data.map(row => row.time);
@@ -43,8 +43,22 @@
                 }];
 
                 // Render de tabel
-                Plotly.newPlot('plotly-table', tableData);
+                Plotly.newPlot('plotly-table', tableData).then(function(graphDiv) {
+                    // Selecteer alle rijen van de tabel
+                    //const tableRows = graphDiv.querySelectorAll('.plotly-table-row');
+                    const tableRows = graphDiv.querySelectorAll('.cell-text');
+               
+                    // Voeg een click-event toe aan elke rij
+                    tableRows.forEach((row, index) => {
+                        row.addEventListener('click', function() {
+                            
+                            // Redirect naar de detailpagina
+                            window.location.href = `details.html?id=${index}`;
+                        });
+                    });
+                });
             })
+    
             .catch(error => {
                 console.error("Fout bij ophalen data:", error);
                 document.getElementById('plotly-table').innerHTML = "<p>Er is een fout opgetreden bij het ophalen van de data.</p>";
