@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tweet Details</title>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card h2 {
+            color: #0077B5; /* LinkedIn blauw */
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        .card .variable {
+            font-weight: bold;
+        }
+
+        .card .value {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Tweet Details</h2>
+        <div id="tweet-details"></div>
+    </div>
+
+    <script>
+        // Haal het tweet-ID uit de URL
+        var tweetId = new URL(window.location.href).searchParams.get("id");
+        alert(tweetId)
+        console.log(tweetId)
+
+        // Haal details op van de backend
+        fetch(`/ELONTWITTERDETAIL/${tweetId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("tweet-details").innerHTML = "<p>Error: " + data.error + "</p>";
+                    return;
+                }
+
+                // Dynamisch de kaart vullen met alle variabelen
+                let detailsHtml = '';
+                Object.keys(data).forEach(key => {
+                    const value = data[key] || ''; // Als waarde leeg is, toon een lege string
+                    detailsHtml += `
+                        <p>
+                            <span class="variable">${key}:</span>
+                            <span class="value">${value}</span>
+                        </p>
+                    `;
+                });
+
+                document.getElementById("tweet-details").innerHTML = detailsHtml;
+            })
+            .catch(error => {
+                document.getElementById("tweet-details").innerHTML = "<p>Error loading tweet details.</p>";
+            });
+    </script>
+</body>
+</html>
