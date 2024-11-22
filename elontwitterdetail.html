@@ -56,14 +56,15 @@
                 if (isSaved) {
                     alert("Je hebt deze tweet reeds opgeslagen.");
                 } else {
+                    const currentDate = new Date().toISOString();   // MAAKT DATUM VAN VANDAAG AAN IN currentDate
                     // Tweet nog niet opgeslagen, dus opslaan
-                    fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}`, {
+                    fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}&save_date=${encodeURIComponent(currentDate)}`, {
                         method: 'POST',
                     })
                     .then(response => response.json())
                     .then(data => {
                         //alert(data.res);  // Laat melding zien of de tweet succesvol is opgeslagen
-                        console.log(`Saving tweet with ID: ${tweetId} and Text: ${tweetText}`); // Console loggen om te debuggen
+                        console.log(`Saving tweet with ID: ${tweetId} and Text: ${tweetText} on ${currentDate}`); // Console loggen om te debuggen
                         return data.res;
 
                     })
