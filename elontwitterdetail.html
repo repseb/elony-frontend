@@ -13,7 +13,7 @@
         fetch("http://127.0.0.1:5000/tweet/get_all")
             .then(response => response.json())
             .then(data => {
-            if (data.res && Array.isArray(data.res)) { 
+            if (data.res && Array.isArray(data.res)) { // Check of data.res wel degelijk een array is
                 tweets = data.res;
                 displayTweet(currentTweetIndex); // Toon de eerste tweet
             } else {
@@ -33,9 +33,9 @@
         }
 
         const tweet = tweets[index];
-        const tweetContainer = document.getElementById("tweet-container");
+        const tweetContainer = document.getElementById("tweet-container"); // Div tweet-text dynamisch aanmaken
         tweetContainer.innerHTML = `
-            <div class="tweet-text">${tweet.tweet}</div>
+            <div class="tweet-text">${tweet.tweet}</div> 
         `;
 
         // Bewaarknop updaten
@@ -45,14 +45,14 @@
         // Functie om de 'Bewaar Tweet' knop bij te werken
         function updateSaveButton(tweetId, tweetText) {
             const saveButton = document.getElementById("save-tweet");
-            const encodedTweetText = encodeURIComponent(tweetText);
-            saveButton.setAttribute("onclick", `saveTweet(${tweetId}, '${encodedTweetText}')`);
+            const encodedTweetText = tweetText;
+            saveButton.setAttribute("onclick", `saveTweet(${tweetId}, "${encodedTweetText}")`);
         }
 
         // Functie om de tweet op te slaan
         async function saveTweet(tweetId, tweetText) {
             // Eerst controleren of de tweet al opgeslagen is
-            checkIfTweetSaved(tweetId).then(isSaved => {
+            const isSaved = await checkIfTweetSaved(tweetId);
                 if (isSaved) {
                     alert("Je hebt deze tweet reeds opgeslagen.");
                 } else {
@@ -71,7 +71,6 @@
                         console.error("Fout bij opslaan van de tweet:", error);
                     });
                 }
-            });
          }
 
         // Functie om te controleren of de tweet al is opgeslagen
@@ -79,6 +78,7 @@
             return fetch(`http://127.0.0.1:5000/tweet/check_if_saved?tweet_id=${tweetId}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(`Tweet with ID: ${tweetId} already saved.`); // Console loggen om te debuggen
                     return data.res;  // Retourneer True/False afhankelijk of de tweet is opgeslagen
                 })
                 .catch(error => {
@@ -88,7 +88,7 @@
         }
 
         // Functie om door de tweets te navigeren
-        function changeTweet(direction) {
+        function changeTweet(direction) { // direction neemt de waarde aan van -1 of 1
         currentTweetIndex += direction;
         if (currentTweetIndex < 0) {
             currentTweetIndex = tweets.length - 1;
