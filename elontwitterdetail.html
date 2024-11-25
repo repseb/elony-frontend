@@ -10,12 +10,16 @@
 
         // Fetch tweets uit endpoint
         function fetchTweetsFromBackend() {
-        fetch("http://127.0.0.1:5000/tweet/get_all")
+        fetch("https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/get_all")
             .then(response => response.json())
             .then(data => {
             if (data.res && Array.isArray(data.res)) { // Check of data.res wel degelijk een array is
-                tweets = data.res;
+                tweets = data.res.map(tweet => {
+                    tweet.id = BigInt(tweet.id);
+                    return tweet;
+                });
                 displayTweet(currentTweetIndex); // Toon de eerste tweet
+                console.log(tweets[1].id)
             } else {
                 console.error("Probleem met tweet structuur.", data);
             }
@@ -35,7 +39,7 @@
         const tweet = tweets[index];
         const tweetContainer = document.getElementById("tweet-container"); // Div tweet-text dynamisch aanmaken
         tweetContainer.innerHTML = `
-            <div class="tweet-text">${tweet.tweet}</div> 
+            <div class="tweet-text">${tweet.tweet}</div>  
         `;
 
         // Bewaarknop updaten
@@ -45,25 +49,39 @@
         // Functie om de 'Bewaar Tweet' knop bij te werken
         function updateSaveButton(tweetId, tweetText) {
             const saveButton = document.getElementById("save-tweet");
-            const encodedTweetText = tweetText;
-            saveButton.setAttribute("onclick", `saveTweet(${tweetId}, "${encodedTweetText}")`);
+
+            // Data attribuut gebruiken om tweetId en tweetText op te slaan
+            saveButton.setAttribute("data-tweet-id", tweetId);
+            saveButton.setAttribute("data-tweet-text", tweetText);
+
+            // Event listener
+            saveButton.onclick = function(){
+                const tweetId = saveButton.getAttribute("data-tweet-id");
+                const tweetText = saveButton.getAttribute("data-tweet-text");
+                alert(tweetId);
+                saveTweet(tweetId, tweetText);
+            }
         }
 
         // Functie om de tweet op te slaan
-        async function saveTweet(tweetId, tweetText) {
+        //async function saveTweet(tweetId, tweetText) {
+        async function saveTweet(tweetId) {
             // Eerst controleren of de tweet al opgeslagen is
             const isSaved = await checkIfTweetSaved(tweetId);
                 if (isSaved) {
                     alert("Je hebt deze tweet reeds opgeslagen.");
                 } else {
+                    const currentDate = new Date().toISOString();   // MAAKT DATUM VAN VANDAAG AAN IN currentDate
                     // Tweet nog niet opgeslagen, dus opslaan
-                    fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}`, {
+                    //fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}`, {
+                    fetch(`https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {
                         method: 'POST',
                     })
                     .then(response => response.json())
                     .then(data => {
                         //alert(data.res);  // Laat melding zien of de tweet succesvol is opgeslagen
-                        console.log(`Saving tweet with ID: ${tweetId} and Text: ${tweetText}`); // Console loggen om te debuggen
+                        //console.log(`Saving tweet with ID: ${tweetId} and Text: ${tweetText}`); // Console loggen om te debuggen
+                        console.log(`Saving tweet with ID: ${tweetId} on ${currentDate}`); // Console loggen om te debuggen
                         return data.res;
 
                     })
@@ -75,7 +93,7 @@
 
         // Functie om te controleren of de tweet al is opgeslagen
         function checkIfTweetSaved(tweetId) {
-            return fetch(`http://127.0.0.1:5000/tweet/check_if_saved?tweet_id=${tweetId}`)
+            return fetch(`https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/check_if_saved?tweet_id=${tweetId}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(`Tweet with ID: ${tweetId} already saved.`); // Console loggen om te debuggen
