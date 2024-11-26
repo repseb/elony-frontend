@@ -10,6 +10,9 @@
     <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+    <!-- contains fetch URLs -->
+    <script src="configuration.js"></script> 
+
     <script>
       // Bypass een actie om en de tabel te laden
       window.onload = function() {
@@ -17,7 +20,7 @@
       };
 
       function tabeltonen(){
-        fetch("http://127.0.0.1:5000/tabel_tesla_beursdata")
+        fetch(fetchUrls[0] + "/tabel_tesla_beursdata")
         .then(r => r.json())
         .then(d => tabelnaarHTML(d))
         .catch(err => console.error("Error ophalen data:", err)); // Error handling

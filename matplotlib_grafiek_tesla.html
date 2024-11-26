@@ -1,6 +1,8 @@
 <head>
     <title>matplotlib_grafiek_tesla</title>
     <link rel="stylesheet" href="stylesheet.css">
+    <!-- contains fetch URLs -->
+    <script src="configuration.js"></script> 
 </head>
 <body>
     <h1>Lijngrafiek in MatPlotLib</h1>
@@ -10,7 +12,7 @@
 
     <script>
         function visualisatie_matplotlib_grafiek() {
-            fetch("http://127.0.0.1:5000/lijngrafiek_beursdata_matplotlib") // fetch link 
+            fetch(fetchUrls[0] + "/lijngrafiek_beursdata_matplotlib") // fetch link 
                 .then(response => response.blob())  // Uitleg blob zie google doc met notities
                 .then(blob => {
                     let imgURL = URL.createObjectURL(blob);
