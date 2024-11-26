@@ -57,8 +57,11 @@
                     alert("Je hebt deze tweet reeds opgeslagen.");
                 } else {
                     const currentDate = new Date().toISOString();   // MAAKT DATUM VAN VANDAAG AAN IN currentDate
+                    console.log(`currentdate is nu: ${currentDate}`);
                     // Tweet nog niet opgeslagen, dus opslaan
-                    fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}&save_date=${encodeURIComponent(currentDate)}`, {
+                    let URLp = `http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}&save_date=${encodeURIComponent(currentDate)}`;
+                    console.log(URLp);
+                    fetch(URLp, {
                         method: 'POST',
                     })
                     .then(response => response.json())
