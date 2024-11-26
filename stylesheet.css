@@ -30,3 +30,12 @@ button {
     cursor: pointer;
     font-size: 16px;
 }
+
+/* Specifieke styling voor de container van de drie knoppen */
+.button-container {
+    display: flex; /* Plaats de knoppen in een flex container */
+    justify-content: space-between; /* Ruimte tussen de knoppen */
+    gap: 10px; /* Ruimte tussen de knoppen */
+    justify-content: center; /* Optioneel: centreert de knoppen als je geen space-between wilt */
+    margin-top: 20px; /* Optioneel: ruimte boven de knoppen */
+}
