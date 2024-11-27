@@ -2,6 +2,8 @@
 <head>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <!-- contains fetch URLs -->
+    <script src="configuration.js"></script> 
 
     <!-- DBD001: Script voor overzichtstabel -->
     <script>
@@ -12,7 +14,7 @@
 
         // De Functie tabeltonen() haalt Tesla beursdata op via een API en geeft door aan verwerkfunctie
         function tabeltonen() {
-            fetch("http://127.0.0.1:5000/tabel_tesla_beursdata")
+            fetch(fetchUrls[0] + "/tabel_tesla_beursdata")
                 .then(r => r.json())
                 .then(d => tabelnaarHTML(d))
                 .catch(err => console.error("Error ophalen data:", err));
@@ -50,7 +52,7 @@
     <!-- DBD002: Script voor matplotlib-grafiek -->
     <script>
         function visualisatie_matplotlib_grafiek() {
-            fetch("http://127.0.0.1:5000/lijngrafiek_beursdata_matplotlib")
+            fetch(fetchUrls[0] + "/lijngrafiek_beursdata_matplotlib")
                 .then(response => response.blob())
                 .then(blob => {
                     const imgURL = URL.createObjectURL(blob);
@@ -75,7 +77,7 @@
         function load_date_range() {
             const start_date = document.getElementById("input_start_date").value;
             const end_date = document.getElementById("input_end_date").value;
-            const url = `http://127.0.0.1:5000/tsla/get_by_date_range?start_date=${start_date}&end_date=${end_date}`;
+            const url = fetchUrls[0] + `/tsla/get_by_date_range?start_date=${start_date}&end_date=${end_date}`;
             fetch(url)
                 .then(r => r.json())
                 .then(r => {
