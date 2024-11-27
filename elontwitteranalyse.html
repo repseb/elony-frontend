@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <script src="configuration.js"></script> <!-- contains fetch URLs -->
+    
+    <script>
+        let tweets = [];
+
+        // Function to fetch tweets from the backend based on selected date
+        function fetchTweetsFromBackend(date) {
+            fetch(fetchUrls[0] + "/tweet/get_three_after_date?date=" + encodeURIComponent(date))
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Log the data to inspect what is returned
+                    if (Array.isArray(data.res)) { // Check if the 'res' property is an array
+                        if (data.res.length === 0) {
+                            alert("No tweets found.");
+                        } else {
+                            // No error, and tweets exist
+                            tweets = data.res;
+                            displayTweetsTable(); // Display tweets in a table format
+                        }
+                    } else {
+                        alert("Unexpected response format from backend.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching tweets:", error);
+                    alert("An error occurred while fetching tweets.");
+                });
+        }
+
+        // Function to format the `created_at` timestamp to `YYYY-MM-DD HH:MM:SS`
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);  // Convert the timestamp string to a Date object
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;  
+        }
+
+        // Function to ensure correct date-time format (YYYY-MM-DD HH:MM:SS)
+        function formatDateForBackend(dateString) {
+            // Ensure the date string is in 'YYYY-MM-DDTHH:MM' format
+            const dateObj = new Date(dateString); // This is in the format 'YYYY-MM-DDTHH:MM'
+            const formattedDate = dateObj.toISOString().slice(0, 19).replace("T", " "); // Convert to 'YYYY-MM-DD HH:MM:SS'
+            return formattedDate;
+        }
+
+        // Function to display the fetched tweets in a Plotly table format
+        function displayTweetsTable() {
+            // Ensure tweets is an array and has data
+            if (!Array.isArray(tweets) || tweets.length === 0) {
+                alert("No tweets to display.");
+                return;
+            }
+
+            // Create the data for the Plotly table
+            const tweetData = tweets.map(tweet => ({
+                'Tweet ID': tweet.id,
+                'Tweet Text': tweet.tweet,
+                'Datum': formatTimestamp(tweet.created_at) // Format the timestamp
+            }));
+
+            const tableData = {
+                type: 'table',
+                header: {
+                    values: [['Tweet ID'], ['Tweet Text'], ['Datum']],
+                    align: ['center', 'center', 'center'],
+                    font: { family: 'Arial', size: 14, color: 'white' },
+                    fill: { color: '#0073b1' },  // LinkedIn blue header color
+                    height: 40
+                },
+                cells: {
+                    values: [
+                        tweetData.map(tweet => tweet['Tweet ID']),
+                        tweetData.map(tweet => tweet['Tweet Text']),
+                        tweetData.map(tweet => tweet['Datum'])
+                    ],
+                    align: ['center', 'left', 'center'],
+                    font: { family: 'Arial', size: 12, color: 'black' },
+                    height: 30,
+                    fill: { color: ['#f4f4f4', 'white'] },  // Light alternating row colors
+                    line: { color: '#e1e1e1', width: 1 } // Light border lines
+                }
+            };
+
+            const layout = {
+                title: 'Eerste 3 Tweets Na Geselecteerde Datum',
+                showlegend: false,
+                margin: { t: 40, b: 40, l: 40, r: 40 },
+                hovermode: 'closest',  // Make rows hoverable
+                xaxis: { showgrid: false },  // Hide X-axis grid lines
+                yaxis: { showgrid: false },  // Hide Y-axis grid lines
+            };
+
+            Plotly.newPlot('tweet-container', [tableData], layout)
+                .catch(error => {
+                    console.error("Error rendering table:", error);
+                    alert("Error rendering table.");
+                });
+
+        }
+
+        // Event handler for the date-time input and button click
+        function handleDateInput() {
+            const inputDate = document.getElementById("input-zoekdatum").value;
+            if (inputDate) {
+                // Format the date-time input to the correct format for SQL Server (YYYY-MM-DD HH:MM:SS)
+                const formattedDate = formatDateForBackend(inputDate);
+
+                // Log the formatted date to the console for debugging
+                console.log("Formatted Date: ", formattedDate);
+
+                // Send the formatted date to the backend to fetch tweets
+                fetchTweetsFromBackend(formattedDate); 
+            } else {
+                alert("Please enter a valid date and time.");
+            }
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <h1>Tweet Analyse Display</h1>
+
+    <!-- Input for the user to fill in the zoekdatum (date-time) -->
+    <label for="input-zoekdatum">Voer een Datum en Tijd in (YYYY-MM-DD HH:MM:SS):</label>
+    <input type="datetime-local" id="input-zoekdatum" name="input-zoekdatum">
+    <button onclick="handleDateInput()">Toon Tweets</button>
+    
+    <br><br>
+    
+    <div id="tweet-container"></div> <!-- Plotly table will be rendered here -->
+
+</body>
+
+</html>
