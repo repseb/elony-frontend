@@ -1,9 +1,19 @@
 // configuration.js
 
+// Goal: 
+// -----
+// Allow for dynamic URL setting.
+
+
 // How to use: 
 // -----------
-// This file contains the fetch URLS. Use local base URL when testing locally, use the remote base URL to test online.
-// In the html-files, configuration.js is called in the variable fetchUrls[0].
+// In the html-files, configuration.js is called in the variable fetchUrls[0] and navigateUrls[n].
+
+// 1) fetchUrls
+//      -- Use local base URL when testing locally, use the remote base URL to test online.
+//      
+// 2) navigateUrls
+//      -- By default, alle navigateUrls are active and used to navigate through the different html pages.
 
 
 // Fetch URLs (without endpoints)
