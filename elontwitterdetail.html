@@ -73,7 +73,9 @@
                     alert("Je hebt deze tweet reeds opgeslagen.");
                 } else {
                     const currentDate = new Date().toISOString();   // MAAKT DATUM VAN VANDAAG AAN IN currentDate
+                    console.log(`currentdate is nu: ${currentDate}`);
                     // Tweet nog niet opgeslagen, dus opslaan
+
                     //fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}`, {
                     //fetch(`https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {
                     fetch(fetchUrls[0] + `/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {

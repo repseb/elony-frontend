@@ -24,7 +24,7 @@
 
     <script>
         // Haal data op van de backend
-        fetch("http://127.0.0.1:5000/ELONTWITTERANALYSE")
+        fetch("http://127.0.0.1:5000/tweet/get_all")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Netwerkresponse was niet ok: " + response.statusText);
@@ -32,42 +32,56 @@
                 return response.json();
             })
             .then(data => { 
+                response = data["res"]
                 // Verwerk de data voor de Plotly-tabel
-                const dates = data.map(row => row.date);
-                const times = data.map(row => row.time);
-                const tweets = data.map(row => row.tweet);
+                const id = response.map(row => row.id);
+                const dates = response.map(row => row.date);
+                const times = response.map(row => row.time);
+                const tweets = response.map(row => row.tweet);
+
 
                 // Maak een Plotly-tabel
                 const tableData = [{
                     type: 'table',
                     header: {
-                        values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>"],
+                        values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>", "<b>Id</b>"],
                         align: 'center',
                         fill: { color: '#0077B5' }, // LinkedIn blauw
                         font: { color: 'white', size: 16, family: 'Source Sans Pro' }
                     },
                     cells: {
-                        values: [dates, times, tweets],
+                        values: [dates, times, tweets, id],
                         align: 'left',
                         fill: { color: '#F3F6F8' }, // Lichtgrijs
                         font: { color: 'black', size: 14, family: 'Source Sans Pro' }
                     }
                 }];
-
+                let a = -1;
                 // Render de tabel
                 Plotly.newPlot('plotly-table', tableData).then(function(graphDiv) {
                     // Selecteer alle rijen van de tabel
                     //const tableRows = graphDiv.querySelectorAll('.plotly-table-row');
                     const tableRows = graphDiv.querySelectorAll('.cell-text');
-               
+                    console.log(tableRows)
+                    for(let x =0 ; x < tableRows.length; x++){
+                        tableRows[x].onclick = function(){
+                            console.log(x)
+                            window.location.href = `details.html?id=${response[x].id - 54}`;
+                        }
+                    }
                     // Voeg een click-event toe aan elke rij
-                    tableRows.forEach((row, index) => {
-                        row.addEventListener('click', function() {
-                            
-                            // Redirect naar de detailpagina
-                            window.location.href = `details.html?id=${index}`;
-                        });
-                    });
+                    // tableRows.forEach((row, index) => {
+                    //     a ++;
+                    //     b = response[a].id;
+                    //     row.addEventListener('click', function() {
+                    //         let b = response[a];
+                    //         // Redirect naar de detailpagina
+                    //         //window.location.href = `details.html?id=${index}`;
+                    //         const tweet_id = b.id;
+                    //         console.log(tweet_id);
+                    //         // window.location.href = `details.html?id=${tweet_id}`;
+                    //     });
+                    // });
                 });
             })
     

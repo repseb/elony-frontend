@@ -14,3 +14,10 @@ const fetchUrls = [
     // Uncomment the next line to use the remote Azure URL:
     //"https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net" // Remote base URL
 ];
+
+// URLS voor de verschillende pagina's die aan index gelinkt moeten worden
+const navigateUrls = [
+"https://app.powerbi.com/view?r=eyJrIjoiMGViMmFiYTctZmNjNC00MjY5LTg3MTgtNTNhMTY4MWYyYTZkIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9",
+"tweetstest.html",
+"elontwitterdetail.html"
+];
