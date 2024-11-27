@@ -9,8 +9,8 @@
 // Fetch URLs (without endpoints)
 const fetchUrls = [
     // Uncomment the next line to use the local URL:
-    //"http://127.0.0.1:5000", // Local base URL
+    "http://127.0.0.1:5000", // Local base URL
 
     // Uncomment the next line to use the remote Azure URL:
-    "https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net" // Remote base URL
+    //"https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net" // Remote base URL
 ];
