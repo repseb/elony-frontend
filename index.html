@@ -174,6 +174,9 @@
 
         function linking_tweet_details(){
             window.location.href = navigateUrls[2]}
+
+        function linking_tweet_details(){
+            window.location.href = navigateUrls[3]}
         
     </script>
 </head>
@@ -182,18 +185,19 @@
     <main>
         <h1>Welkom bij Elony!</h1>
         <div class="button-container">
-            <button onclick="linking_barplot_powerbi()">Barplot Saved Tweets</button>
-            <button onclick="linking_elon_tweets()">Overzicht van Elon's Tweets</button>
+            <button onclick="linking_barplot_powerbi()">Barplot Bewaarde Tweets</button>
+            <button onclick="linking_elon_tweets()">Overzicht Elon's Tweets</button>
             <button onclick="linking_tweet_details()">Tweet Details</button>
+            <button onclick="linking_tweet_analysis()">Tweet Analyse</button>
         </div>
-        <p> Op deze pagina vind u informatie over de beursdata van Tesla. 
-            Bovenaan de pagina vind u een overzichtstabel met een meetpunt 
-            per maand van januari 2015 tot en met december. Daaronder vind 
+        <p> Op deze pagina vindt u informatie over de beursdata van Tesla. 
+            Bovenaan de pagina vindt u een overzichtstabel met een meetpunt 
+            per maand van januari 2015 tot en met december. Daaronder vindt 
             u een lijngrafiek van deze data.</p>
         <div id="tabelbeursdata"></div>
         <div id="lijngrafiek_beursdata"></div>
 
-        <p> Onder de overzichtstabel en overzichtsgrafiek vind u een interactieve tabel.
+        <p> Onder de overzichtstabel en overzichtsgrafiek vindt u een interactieve tabel.
             In deze tabel kunt u zelf selecteren voor welke periode u de beursdata 
             wilt bekijken.</p>
         <div id="tesla_table"></div>

@@ -11,7 +11,6 @@
 
         // Fetch tweets uit endpoint
         function fetchTweetsFromBackend() {
-        //fetch("https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/get_all")
         fetch(fetchUrls[0] + "/tweet/get_all")
             .then(response => response.json())
             .then(data => {
@@ -76,8 +75,6 @@
                     console.log(`currentdate is nu: ${currentDate}`);
                     // Tweet nog niet opgeslagen, dus opslaan
 
-                    //fetch(`http://127.0.0.1:5000/tweet/save_by_id?tweet_id=${tweetId}&tweet_text=${encodeURIComponent(tweetText)}`, {
-                    //fetch(`https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {
                     fetch(fetchUrls[0] + `/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {
                         method: 'POST',
                     })
@@ -97,7 +94,6 @@
 
         // Functie om te controleren of de tweet al is opgeslagen
         function checkIfTweetSaved(tweetId) {
-            //return fetch(`https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-01.azurewebsites.net/tweet/check_if_saved?tweet_id=${tweetId}`)
             return fetch(fetchUrls[0] + `/tweet/check_if_saved?tweet_id=${tweetId}`)
                 .then(response => response.json())
                 .then(data => {
