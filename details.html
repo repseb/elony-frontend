@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tweet Details</title>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+        }
+
+        h1 {
+            color: #0077B5;
+            text-align: center;
+        }
+
+        .details-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .details-container p {
+            font-size: 16px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tweet Details</h1>
+    <div class="details-container" id="tweet-details">
+        <p>Details worden geladen...</p>
+    </div>
+
+    <script>
+        const tweet_id = new URLSearchParams(window.location.search).get('id');
+console.log("qqq", tweet_id)
+        if (!tweet_id) {
+            document.getElementById('tweet-details').innerHTML = '<p>Error: Geen geldig ID opgegeven.</p>';
+        } else {
+            fetch(`http://127.0.0.1:5000/tweet/get_by_id?tweet_id=${tweet_id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Netwerkresponse was niet ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    data = data["res"]
+                    const detailsHtml = `
+                        <p><span class="label">Datum:</span> ${data.date || 'Niet beschikbaar'}</p>
+                        <p><span class="label">Tijd:</span> ${data.time || 'Niet beschikbaar'}</p>
+                        <p><span class="label">Tweet:</span> ${data.tweet || 'Niet beschikbaar'}</p>
+                        <p><span class="label">Likes:</span> ${data.likes || 'Niet beschikbaar'}</p>
+                        <p><span class="label">Retweets:</span> ${data.retweets || 'Niet beschikbaar'}</p>
+                    `;
+                    document.getElementById('tweet-details').innerHTML = detailsHtml;
+                })
+                .catch(error => {
+                    console.error('Fout bij ophalen tweetdetails:', error);
+                    document.getElementById('tweet-details').innerHTML = '<p>Error bij laden van de tweetdetails.</p>';
+                });
+        }
+    </script>
+</body>
+</html>

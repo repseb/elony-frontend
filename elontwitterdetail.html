@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <script src="configuration.js"></script> <!-- contains fetch URLs -->
+    
+    <script>
+        let tweets = [];
+        let currentTweetIndex = 0;
+
+        // Fetch tweets uit endpoint
+        function fetchTweetsFromBackend() {
+        fetch(fetchUrls[0] + "/tweet/get_all")
+            .then(response => response.json())
+            .then(data => {
+            if (data.res && Array.isArray(data.res)) { // Check of data.res wel degelijk een array is
+                tweets = data.res.map(tweet => {
+                    return tweet;
+                });
+                displayTweet(currentTweetIndex); // Toon de eerste tweet
+                console.log(tweets[1].id)
+            } else {
+                console.error("Probleem met tweet structuur.", data);
+            }
+            })
+            .catch(error => {
+            console.error("Error bij het fetchen van de tweets.", error);
+            });
+        }
+
+        // Functie om de tweet te tonen in HTML
+        function displayTweet(index) {
+        if (tweets.length === 0) { // Zijn er tweets in de array?
+            document.getElementById("tweet-container").innerHTML = "Geen tweets beschikbaar.";
+            return;
+        }
+
+        const tweet = tweets[index];
+        const tweetContainer = document.getElementById("tweet-container"); // Div tweet-text dynamisch aanmaken
+        tweetContainer.innerHTML = `
+            <div class="tweet-text">${tweet.tweet}</div>  
+        `;
+
+        // Bewaarknop updaten
+        updateSaveButton(tweet.id, tweet.tweet);
+        }
+
+        // Functie om de 'Bewaar Tweet' knop bij te werken
+        function updateSaveButton(tweetId, tweetText) {
+            const saveButton = document.getElementById("save-tweet");
+
+            // Data attribuut gebruiken om tweetId en tweetText op te slaan
+            saveButton.setAttribute("data-tweet-id", tweetId);
+            saveButton.setAttribute("data-tweet-text", tweetText);
+
+            // Event listener
+            saveButton.onclick = function(){
+                const tweetId = saveButton.getAttribute("data-tweet-id");
+                const tweetText = saveButton.getAttribute("data-tweet-text");
+                alert(tweetId);
+                saveTweet(tweetId, tweetText);
+            }
+        }
+
+        // Functie om de tweet op te slaan
+        //async function saveTweet(tweetId, tweetText) {
+        async function saveTweet(tweetId) {
+            // Eerst controleren of de tweet al opgeslagen is
+            const isSaved = await checkIfTweetSaved(tweetId);
+                if (isSaved) {
+                    alert("Je hebt deze tweet reeds opgeslagen.");
+                } else {
+                    const currentDate = new Date().toISOString();   // MAAKT DATUM VAN VANDAAG AAN IN currentDate
+                    console.log(`currentdate is nu: ${currentDate}`);
+                    // Tweet nog niet opgeslagen, dus opslaan
+
+                    fetch(fetchUrls[0] + `/tweet/save_by_id?tweet_id=${tweetId}&save_date=${encodeURIComponent(currentDate)}`, {
+                        method: 'POST',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        //alert(data.res);  // Laat melding zien of de tweet succesvol is opgeslagen
+                        //console.log(`Saving tweet with ID: ${tweetId} and Text: ${tweetText}`); // Console loggen om te debuggen
+                        console.log(`Saving tweet with ID: ${tweetId} on ${currentDate}`); // Console loggen om te debuggen
+                        return data.res;
+
+                    })
+                    .catch(error => {
+                        console.error("Fout bij opslaan van de tweet:", error);
+                    });
+                }
+         }
+
+        // Functie om te controleren of de tweet al is opgeslagen
+        function checkIfTweetSaved(tweetId) {
+            return fetch(fetchUrls[0] + `/tweet/check_if_saved?tweet_id=${tweetId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Tweet with ID: ${tweetId} already saved.`); // Console loggen om te debuggen
+                    return data.res;  // Retourneer True/False afhankelijk of de tweet is opgeslagen
+                })
+                .catch(error => {
+                    console.error("Fout bij controleren of de tweet opgeslagen is:", error);
+                    return false;
+                });
+        }
+
+        // Functie om door de tweets te navigeren
+        function changeTweet(direction) { // direction neemt de waarde aan van -1 of 1
+        currentTweetIndex += direction;
+        if (currentTweetIndex < 0) {
+            currentTweetIndex = tweets.length - 1;
+        } else if (currentTweetIndex >= tweets.length) {
+            currentTweetIndex = 0;
+        }
+        displayTweet(currentTweetIndex);
+        }
+
+        // Fetch tweets bij laden van de pagina
+        window.onload = fetchTweetsFromBackend;
+    </script>
+    
+</head>
+
+<body>
+    <h1>Tweet Detail Display</h1>
+
+    <div id="tweet-container" class="tweet-container"></div>
+    <br>
+    <br>
+    <div class="navigation-buttons">
+        <button id="prev-tweet" onclick="changeTweet(-1)">Vorige Tweet</button>
+        <button id="next-tweet" onclick="changeTweet(1)">Volgende Tweet</button>
+    </div>    
+    <br>
+    <br>
+    <div class="save-button">
+        <button id="save-tweet">Bewaar Tweet</button>
+    </div>
+
+</body>
+
+</html>

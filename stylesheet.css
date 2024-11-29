@@ -1,4 +1,8 @@
-/*  Huisstijl opgehaald mbv chatgpt */
+/*  LinkedIn huisstijl opgehaald mbv chatgpt 
+--------------------------------------------
+*/
+
+
 body {
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
     margin: 0;
@@ -18,4 +22,49 @@ p {
     font-size: 16px;
     color: #606770; /* Subtiele grijstint */
 }
-  
+
+/* Buttons */
+button {
+    background-color: #0073b1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Specifieke styling voor de container van de drie knoppen */
+.button-container {
+    display: flex; /* Plaats de knoppen in een flex container */
+    justify-content: space-between; /* Ruimte tussen de knoppen */
+    gap: 10px; /* Ruimte tussen de knoppen */
+    justify-content: center; /* Optioneel: centreert de knoppen als je geen space-between wilt */
+    margin-top: 20px; /* Optioneel: ruimte boven de knoppen */
+}
+
+/* Tables */
+#tweet-container {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+}
+
+.plotly-table .header {
+    background-color: #0073b1; /* LinkedIn Blue */
+    color: white;
+}
+
+.plotly-table .cell {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e1e1e1; /* Light gray borders */
+}
+
+.plotly-table .cell:hover {
+    background-color: #f5f5f5; /* Subtle hover effect */
+}
+
+/* Optional: Style for header row */
+.plotly-table .header th {
+    font-weight: bold;
+    padding: 12px;
+}

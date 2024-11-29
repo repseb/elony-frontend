@@ -2,7 +2,8 @@
 <head>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
-    <script src="configuration.js"></script> <!-- contains fetch URLs -->
+    <!-- contains fetch URLs -->
+    <script src="configuration.js"></script> 
 
     <!-- DBD001: Script voor overzichtstabel -->
     <script>
@@ -11,9 +12,9 @@
             tabeltonen();
         };
 
-        // De Functie tabeltonen() haalt Tesla beursdata op en geeft door aan verwerkfunctie
+        // De Functie tabeltonen() haalt Tesla beursdata op via een API en geeft door aan verwerkfunctie
         function tabeltonen() {
-            fetch(fetchUrls[0] +  "/tabel_tesla_beursdata")
+            fetch(fetchUrls[0] + "/tabel_tesla_beursdata")
                 .then(r => r.json())
                 .then(d => tabelnaarHTML(d))
                 .catch(err => console.error("Error ophalen data:", err));
@@ -25,8 +26,8 @@
             const data = d.parsed;
 
             // Converteer timestamps naar leesbare data
-            const dates = data.map(entry => new Date(entry.Date).toLocaleDateString()); // Maakt nieuwe array aan met de functie die in .map staat
-            const tslaValues = data.map(entry => entry.Tsla);
+            const dates = data.map(entry => new Date(entry.Date).toLocaleDateString());
+            const tslaValues = data.map(entry => entry.TSLA);
 
             // Maak tabeldata voor Plotly
             const tabelData = {
@@ -165,39 +166,22 @@
                 .catch((e) => console.log("plotting went wrong with:" + e));
         }
     </script>
-    <script>
-        function linking_barplot_powerbi(){
-            window.location.href = navigateUrls[0]}
-
-        function linking_elon_tweets(){
-            window.location.href = navigateUrls[1]}
-
-        function linking_tweet_details(){
-            window.location.href = navigateUrls[2]}
-
-        function linking_tweet_details(){
-            window.location.href = navigateUrls[3]}
-        
-    </script>
 </head>
+
+
+
 
 <body>
     <main>
         <h1>Welkom bij Elony!</h1>
-        <div class="button-container">
-            <button onclick="linking_barplot_powerbi()">Barplot Bewaarde Tweets</button>
-            <button onclick="linking_elon_tweets()">Overzicht Elon's Tweets</button>
-            <button onclick="linking_tweet_details()">Tweet Details</button>
-            <button onclick="linking_tweet_analysis()">Tweet Analyse</button>
-        </div>
-        <p> Op deze pagina vindt u informatie over de beursdata van Tesla. 
-            Bovenaan de pagina vindt u een overzichtstabel met een meetpunt 
-            per maand van januari 2015 tot en met december. Daaronder vindt 
+        <p> Op deze pagina vind u informatie over de beursdata van Tesla. 
+            Bovenaan de pagina vind u een overzichtstabel met een meetpunt 
+            per maand van januari 2015 tot en met december. Daaronder vind 
             u een lijngrafiek van deze data.</p>
         <div id="tabelbeursdata"></div>
         <div id="lijngrafiek_beursdata"></div>
 
-        <p> Onder de overzichtstabel en overzichtsgrafiek vindt u een interactieve tabel.
+        <p> Onder de overzichtstabel en overzichtsgrafiek vind u een interactieve tabel.
             In deze tabel kunt u zelf selecteren voor welke periode u de beursdata 
             wilt bekijken.</p>
         <div id="tesla_table"></div>

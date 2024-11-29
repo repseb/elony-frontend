@@ -31,6 +31,8 @@
                 }
                 return response.json();
             })
+<!--      
+
             .then(data => {
                 // Extract the "res" array from the response
                 if (!data.res || !Array.isArray(data.res)) {
@@ -44,12 +46,23 @@
                 const times = res.map(row => row.time);
                 const tweets = res.map(row => row.tweet);
 
+  -->
+            .then(data => { 
+                response = data["res"]
+                // Verwerk de data voor de Plotly-tabel
+                const id = response.map(row => row.id);
+                const dates = response.map(row => row.date);
+                const times = response.map(row => row.time);
+                const tweets = response.map(row => row.tweet);
+
+
+
                 // Create the Plotly table
                 const tableData = [{
                     type: 'table',
                     columnwidth: [10, 10, 80], // Adjust column widths
                     header: {
-                        values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>"],
+                        values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>", "<b>Id</b>"],
                         align: 'center',
                         line: { width: 1, color: 'black' },
                         fill: { color: '#0077B5' }, // LinkedIn blue
@@ -57,6 +70,8 @@
                         height: 40
                     },
                     cells: {
+<!--                      
+
                         values: [dates, times, tweets],
                         align: ['center', 'center', 'left'],
                         line: { width: 1, color: 'black' },
@@ -74,8 +89,44 @@
                 Plotly.newPlot('plotly-table', tableData, {
                     margin: { l: 10, r: 10, b: 10, t: 10 },
                     height: 600 // Make the table longer
+
+-->
+                        values: [dates, times, tweets, id],
+                        align: 'left',
+                        fill: { color: '#F3F6F8' }, // Lichtgrijs
+                        font: { color: 'black', size: 14, family: 'Source Sans Pro' }
+                    }
+                }];
+                let a = -1;
+                // Render de tabel
+                Plotly.newPlot('plotly-table', tableData).then(function(graphDiv) {
+                    // Selecteer alle rijen van de tabel
+                    //const tableRows = graphDiv.querySelectorAll('.plotly-table-row');
+                    const tableRows = graphDiv.querySelectorAll('.cell-text');
+                    console.log(tableRows)
+                    for(let x =0 ; x < tableRows.length; x++){
+                        tableRows[x].onclick = function(){
+                            console.log(x)
+                            window.location.href = `details.html?id=${response[x].id - 54}`;
+                        }
+                    }
+                    // Voeg een click-event toe aan elke rij
+                    // tableRows.forEach((row, index) => {
+                    //     a ++;
+                    //     b = response[a].id;
+                    //     row.addEventListener('click', function() {
+                    //         let b = response[a];
+                    //         // Redirect naar de detailpagina
+                    //         //window.location.href = `details.html?id=${index}`;
+                    //         const tweet_id = b.id;
+                    //         console.log(tweet_id);
+                    //         // window.location.href = `details.html?id=${tweet_id}`;
+                    //     });
+                    // });
+
                 });
             })
+    
             .catch(error => {
                 console.error("Error fetching data:", error);
                 document.getElementById('error-message').textContent = "Er is een fout opgetreden bij het ophalen van de data. Controleer de server of probeer het later opnieuw.";
