@@ -22,7 +22,7 @@
         // De functie tabelnaarHTML rendert de opgehaalde data in een Plotly-tabel
         function tabelnaarHTML(d) {
             // Extraheer de data
-            const data = d.parsed;
+            const data = d.res;
 
             // Converteer timestamps naar leesbare data
             const dates = data.map(entry => new Date(entry.Date).toLocaleDateString()); // Maakt nieuwe array aan met de functie die in .map staat
@@ -165,7 +165,7 @@
                 .catch((e) => console.log("plotting went wrong with:" + e));
         }
     </script>
-    <script>
+    <script> // Dit script bevat de navigatie functies van de buttons bovenaan index.html
         function linking_barplot_powerbi(){
             window.location.href = navigateUrls[0]}
 
@@ -178,6 +178,8 @@
         function linking_tweet_analysis(){
             window.location.href = navigateUrls[3]}
         
+        function linking_populatie_aantallen(){
+            window.location.href = navigateUrls[4]}
     </script>
 </head>
 
@@ -189,6 +191,7 @@
             <button onclick="linking_elon_tweets()">Overzicht Elon's Tweets</button>
             <button onclick="linking_tweet_details()">Tweet Details</button>
             <button onclick="linking_tweet_analysis()">Tweet Analyse</button>
+            <button onclick="linking_populatie_aantallen()">Populatie Aantallen per provincie</button>
         </div>
         <p> Op deze pagina vindt u informatie over de beursdata van Tesla. 
             Bovenaan de pagina vindt u een overzichtstabel met een meetpunt 
