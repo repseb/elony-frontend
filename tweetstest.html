@@ -24,7 +24,7 @@
 
     <script>
         // Haal data op van de backend
-        fetch("http://127.0.0.1:5000/ELONTWITTERANALYSE")
+        fetch("http://127.0.0.1:5000/tweet/get_all")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Netwerkresponse was niet ok: " + response.statusText);
@@ -32,34 +32,53 @@
                 return response.json();
             })
             .then(data => {
-                // Verwerk de data voor de Plotly-tabel
-                const dates = data.map(row => row.date);
-                const times = data.map(row => row.time);
-                const tweets = data.map(row => row.tweet);
+                // Extract the "res" array from the response
+                if (!data.res || !Array.isArray(data.res)) {
+                    throw new Error("Invalid response format from server.");
+                }
 
-                // Maak een Plotly-tabel
+                const res = data.res;
+
+                // Map the data for the Plotly table
+                const dates = res.map(row => row.date);
+                const times = res.map(row => row.time);
+                const tweets = res.map(row => row.tweet);
+
+                // Create the Plotly table
                 const tableData = [{
                     type: 'table',
+                    columnwidth: [10, 10, 80], // Adjust column widths
                     header: {
                         values: ["<b>Datum</b>", "<b>Tijd</b>", "<b>Tweet</b>"],
                         align: 'center',
-                        fill: { color: '#0077B5' }, // LinkedIn blauw
-                        font: { color: 'white', size: 16, family: 'Source Sans Pro' }
+                        line: { width: 1, color: 'black' },
+                        fill: { color: '#0077B5' }, // LinkedIn blue
+                        font: { color: 'white', size: 16, family: 'Source Sans Pro' },
+                        height: 40
                     },
                     cells: {
                         values: [dates, times, tweets],
-                        align: 'left',
-                        fill: { color: '#F3F6F8' }, // Lichtgrijs
-                        font: { color: 'black', size: 14, family: 'Source Sans Pro' }
+                        align: ['center', 'center', 'left'],
+                        line: { width: 1, color: 'black' },
+                        fill: {
+                            color: [
+                                ['#F3F6F8', '#E8EDF0'] // Alternating light gray rows
+                            ]
+                        },
+                        font: { color: 'black', size: 14, family: 'Source Sans Pro' },
+                        height: 30
                     }
                 }];
 
-                // Render de tabel
-                Plotly.newPlot('plotly-table', tableData);
+                // Render the table
+                Plotly.newPlot('plotly-table', tableData, {
+                    margin: { l: 10, r: 10, b: 10, t: 10 },
+                    height: 600 // Make the table longer
+                });
             })
             .catch(error => {
-                console.error("Fout bij ophalen data:", error);
-                document.getElementById('plotly-table').innerHTML = "<p>Er is een fout opgetreden bij het ophalen van de data.</p>";
+                console.error("Error fetching data:", error);
+                document.getElementById('error-message').textContent = "Er is een fout opgetreden bij het ophalen van de data. Controleer de server of probeer het later opnieuw.";
             });
     </script>
 </body>
