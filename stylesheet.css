@@ -1,7 +1,6 @@
-/*  LinkedIn huisstijl opgehaald mbv chatgpt 
+/* LinkedIn huisstijl opgehaald mbv chatgpt 
 --------------------------------------------
 */
-
 
 body {
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
@@ -45,8 +44,11 @@ button {
 
 /* Tables */
 #tweet-container {
-    font-family: 'Arial', sans-serif;
+    font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
     font-size: 14px;
+    width: 100%; /* Table will take up full width of the parent container */
+    table-layout: auto; /* Allows dynamic resizing based on content */
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
 }
 
 .plotly-table .header {
@@ -67,4 +69,11 @@ button {
 .plotly-table .header th {
     font-weight: bold;
     padding: 12px;
+}
+
+/* Ensures the table adjusts its width according to content */
+.plotly-table td, .plotly-table th {
+    word-wrap: break-word; /* Allows words to wrap within the cell */
+    white-space: normal; /* Prevents text from being cut off */
+    max-width: 1000px; /* Optional: Adjust the max-width for wide content */
 }

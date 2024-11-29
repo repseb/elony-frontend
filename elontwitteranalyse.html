@@ -14,12 +14,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Log the data to inspect what is returned
-                    if (Array.isArray(data.data)) { // Check if the 'res' property is an array
-                        if (data.data.length === 0) {
+                    if (Array.isArray(data.res)) { // Check if the 'res' property is an array
+                        if (data.res.length === 0) {
                             alert("No tweets found.");
                         } else {
                             // No error, and tweets exist
-                            tweets = data.data;
+                            tweets = data.res;
                             displayTweetsTable(); // Display tweets in a table format
                         }
                     } else {
