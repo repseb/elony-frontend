@@ -31,22 +31,22 @@
                 }
                 return response.json();
             })
-<!--      
+// <!--      
 
-            .then(data => {
-                // Extract the "res" array from the response
-                if (!data.res || !Array.isArray(data.res)) {
-                    throw new Error("Invalid response format from server.");
-                }
+  //          .then(data => {
+  //              // Extract the "res" array from the response
+  //              if (!data.res || !Array.isArray(data.res)) {
+  //                  throw new Error("Invalid response format from server.");
+  //              }
 
-                const res = data.res;
+  //              const res = data.res;
 
-                // Map the data for the Plotly table
-                const dates = res.map(row => row.date);
-                const times = res.map(row => row.time);
-                const tweets = res.map(row => row.tweet);
+  //              // Map the data for the Plotly table
+  //              const dates = res.map(row => row.date);
+  //              const times = res.map(row => row.time);
+  //              const tweets = res.map(row => row.tweet);
 
-  -->
+ // -->
             .then(data => { 
                 response = data["res"]
                 // Verwerk de data voor de Plotly-tabel
@@ -70,27 +70,27 @@
                         height: 40
                     },
                     cells: {
-<!--                      
-
-                        values: [dates, times, tweets],
-                        align: ['center', 'center', 'left'],
-                        line: { width: 1, color: 'black' },
-                        fill: {
-                            color: [
-                                ['#F3F6F8', '#E8EDF0'] // Alternating light gray rows
-                            ]
-                        },
-                        font: { color: 'black', size: 14, family: 'Source Sans Pro' },
-                        height: 30
-                    }
-                }];
-
-                // Render the table
-                Plotly.newPlot('plotly-table', tableData, {
-                    margin: { l: 10, r: 10, b: 10, t: 10 },
-                    height: 600 // Make the table longer
-
--->
+// <!--                      
+//
+//                        values: [dates, times, tweets],
+//                        align: ['center', 'center', 'left'],
+//                        line: { width: 1, color: 'black' },
+//                        fill: {
+//                            color: [
+//                                ['#F3F6F8', '#E8EDF0'] // Alternating light gray rows
+//                            ]
+//                        },
+//                        font: { color: 'black', size: 14, family: 'Source Sans Pro' },
+//                        height: 30
+//                    }
+//                }];
+//
+//                // Render the table
+//                Plotly.newPlot('plotly-table', tableData, {
+//                    margin: { l: 10, r: 10, b: 10, t: 10 },
+//                    height: 600 // Make the table longer
+//
+//-->
                         values: [dates, times, tweets, id],
                         align: 'left',
                         fill: { color: '#F3F6F8' }, // Lichtgrijs
