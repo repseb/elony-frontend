@@ -22,7 +22,7 @@
         // De functie tabelnaarHTML rendert de opgehaalde data in een Plotly-tabel
         function tabelnaarHTML(d) {
             // Extraheer de data
-            const data = d.parsed;
+            const data = d.res;
 
             // Converteer timestamps naar leesbare data
             const dates = data.map(entry => new Date(entry.Date).toLocaleDateString()); // Maakt nieuwe array aan met de functie die in .map staat
