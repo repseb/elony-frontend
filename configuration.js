@@ -31,5 +31,5 @@ const navigateUrls = [
     "tweetstest.html",
     "elontwitterdetail.html",
     "elontwitteranalyse.html",
-    "https://www.nos.nl" // AANPASSEN NAAR LINK ZODRA IK POWERBI WEER IN KAN
+    "https://app.powerbi.com/view?r=eyJrIjoiZjkzOWNhMDEtZDBiMC00ZjY2LWFmYzctOWY3Y2Q3OWUzNGQzIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9"
 ];
