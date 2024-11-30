@@ -180,6 +180,9 @@
         
         function linking_populatie_aantallen(){
             window.location.href = navigateUrls[4]}
+
+        function goHome(){
+            window.location.href = homeUrl[0]}
     </script>
 </head>
 
@@ -187,6 +190,7 @@
     <main>
         <h1>Welkom bij Elony!</h1>
         <div class="button-container">
+            <button onclick="goHome()">Home</button>
             <button onclick="linking_barplot_powerbi()">Barplot Bewaarde Tweets</button>
             <button onclick="linking_elon_tweets()">Overzicht Elon's Tweets</button>
             <button onclick="linking_tweet_details()">Tweet Details</button>
