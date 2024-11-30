@@ -124,12 +124,20 @@
             }
         }
 
+        // Home button
+        function goHome(){
+            window.location.href = homeUrl[0]
+        }
 
     </script>
 </head>
 
 <body>
     <h1>Tweet Analyse Display</h1>
+
+    <div class="button-container">
+        <button onclick="goHome()">Home</button>
+    </div>
 
     <!-- Input for the user to fill in the zoekdatum (date-time) -->
     <label for="input-zoekdatum">Voer een Datum en Tijd in (YYYY-MM-DD HH:MM:SS):</label>

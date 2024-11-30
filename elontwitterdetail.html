@@ -119,12 +119,22 @@
 
         // Fetch tweets bij laden van de pagina
         window.onload = fetchTweetsFromBackend;
+
+        // Home button
+        function goHome(){
+            window.location.href = homeUrl[0]
+        }
+
     </script>
     
 </head>
 
 <body>
     <h1>Tweet Detail Display</h1>
+
+    <div class="button-container">
+        <button onclick="goHome()">Home</button>
+    </div>
 
     <div id="tweet-container" class="tweet-container"></div>
     <br>

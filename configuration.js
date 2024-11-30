@@ -12,7 +12,8 @@
 //    - Change LOCAL_URL or REMOTE_URL if you're using a different local or live server.
 // 3. Modify Navigation URLs:
 //    - Add or remove URLs in the navigateUrls array based on your app's needs.
-// 4. Debugging:
+// 4. Home URL
+// 5. Debugging:
 //    - Open your browser’s developer console to view the logs from console.log() to check settings.
 // -------------------------------------------------------------
 
@@ -44,6 +45,10 @@ const navigateUrls = [
     "https://app.powerbi.com/view?r=eyJrIjoiZjkzOWNhMDEtZDBiMC00ZjY2LWFmYzctOWY3Y2Q3OWUzNGQzIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9"
 ];
 
-// 5. Log environment-specific information to the console for debugging
+// 5. Home URL
+const homeUrl = ["index.html"];
+
+// 6. Log environment-specific information to the console for debugging
 console.log(`Environment: ${environment}`);
 console.log(`Fetch URLs:`, fetchUrls);
+console.log(`Home URL: ${homeUrl}`);
