@@ -18,10 +18,10 @@
 // -------------------------------------------------------------
 
 
-// 1. Set the environment manually. Change to 'production' for production environment.
-// This variable determines whether you are running the app in 'development' or 'production' mode.
-// 'development' is for local testing, 'production' is for the live app.
-const environment = 'development';  // Change this to 'production' as needed
+// 1. Dynamically determine the environment
+// Check if the protocol is 'file:' or if the hostname is '127.0.0.1' or 'localhost', indicating a local environment.
+const isLocal = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:';
+const environment = isLocal ? 'development' : 'production';
 
 // 2. URLs for different environments
 // - LOCAL_URL is used when the environment is set to 'development' (i.e., when running locally).
@@ -32,9 +32,11 @@ const REMOTE_URL = "https://damen2411-elony-backend-enaaeee5gze4cdeg.westeurope-
 // 3. Fetch URLs: These are the URLs the app will use for fetching data, depending on the environment.
 // - If the environment is 'development', LOCAL_URL will be used.
 // - If the environment is 'production', REMOTE_URL will be used.
+// 3. Fetch URLs: Based on the environment
 const fetchUrls = [
     environment === 'development' ? LOCAL_URL : REMOTE_URL
 ];
+
 
 // 4. Navigation URLs: These are the URLs the app can navigate to, such as Power BI reports or other pages.
 const navigateUrls = [
@@ -51,4 +53,6 @@ const homeUrl = ["index.html"];
 // 6. Log environment-specific information to the console for debugging
 console.log(`Environment: ${environment}`);
 console.log(`Fetch URLs:`, fetchUrls);
+console.log(`Navigate URLs:`, navigateUrls);
 console.log(`Home URL: ${homeUrl}`);
+console.log(`Current Path: ${window.location.pathname}`);;
