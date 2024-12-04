@@ -33,7 +33,7 @@
 
     <script>
         // Haal data op van de backend
-        fetch("http://127.0.0.1:5000/tweet/get_all")
+        fetch(fetchUrls[0] + "/tweet/get_all")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Netwerkresponse was niet ok: " + response.statusText);
