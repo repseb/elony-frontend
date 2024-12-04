@@ -44,7 +44,8 @@ const navigateUrls = [
     "tweetstest.html",
     "elontwitterdetail.html",
     "elontwitteranalyse.html",
-    "https://app.powerbi.com/view?r=eyJrIjoiZjkzOWNhMDEtZDBiMC00ZjY2LWFmYzctOWY3Y2Q3OWUzNGQzIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9"
+    "https://app.powerbi.com/view?r=eyJrIjoiZjkzOWNhMDEtZDBiMC00ZjY2LWFmYzctOWY3Y2Q3OWUzNGQzIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9",
+    "https://app.powerbi.com/view?r=eyJrIjoiN2IxZGYwNjUtZWM0My00ZGE1LTg2ZDAtMzZjZjE0MTkxMWQyIiwidCI6IjgxZGJmMzFjLWQ5MTgtNDQ3Yi05YTM1LTBlZTNjN2I1Yjg4ZCIsImMiOjl9"
 ];
 
 // 5. Home URL
