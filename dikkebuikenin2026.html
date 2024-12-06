@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<head>
+    <!-- Ophalen plotly, stylesheet en configuration file-->
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <script src="configuration.js"></script>
+    
+    <script>
+        // Toon tabel zodra de pagina wordt geopend
+        window.onload = function() {
+            ShowWeightTable();
+        };
+
+        // Haalt data op en geeft data door aan de verwerkfunctie
+        function ShowWeightTable() {
+            fetch(fetchUrls[0] +  "/tabel_average_weight")
+                .then(r => r.json())
+                .then(d => tabelnaarHTML(d))
+                .catch(err => console.error("Error ophalen data:", err));
+        }
+
+        // De functie tabelnaarHTML rendert de opgehaalde data in een Plotly-tabel
+        function tabelnaarHTML(d) {
+            // Extraheer de data
+            const data = d.res;
+            const Year = data.map(entry => entry.Year);
+            const AverageWeight = data.map(entry => entry.AverageWeight);
+
+            // Maak tabeldata voor Plotly
+            const tabelData = {
+                type: 'table',
+                header: {
+                    values: ["Year", "Average Weight"], // Column headers
+                    align: "center"
+                },
+                cells: {
+                    values: [Year, AverageWeight],
+                    align: "center"
+                }
+            };
+
+            // Plot de tabel met Plotly
+            Plotly.newPlot('tabelaverageweight', [tabelData])
+                .then(() => console.log("Tabel succesvol gerenderd"))
+                .catch(err => console.error("Error in het renderen van Plotly tabel:", err));
+        }
+
+        // Home button
+        function goHome(){
+            window.location.href = homeUrl[0]
+        }
+
+    </script>
+</head>
+
+<body>
+<h1>Hoe dik zijn wij in 2026?</h1>
+
+<div class="button-container">
+    <button onclick="goHome()">Home</button>
+</div>
+
+<p> Op deze pagina worden alle user stories met betrekking tot de overheidsbegroting 
+    op het gebied van sport en de gemiddelde levensverwachting en gewicht getoond.</p>
+
+<div id="tabelaverageweight"></div>
+</body>
