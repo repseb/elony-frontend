@@ -1,79 +1,165 @@
-/* LinkedIn huisstijl opgehaald mbv chatgpt 
---------------------------------------------
-*/
-
+/* General Body Styles */
 body {
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f3f2ef; /* Lichtgrijze achtergrond */
-    color: #333; /* Donkergrijze tekst */
+    padding: 20px; /* Added padding for better spacing */
+    background: linear-gradient(135deg, #f3f2ef, #ffffff); /* Light gradient background */
+    color: #333;
+    line-height: 1.5; /* Improved line height for readability */
+    font-size: 16px; /* Default font size */
 }
 
+/* Heading Styles */
 h1 {
-    color: #0077B5; /* LinkedIn blauw */
+    color: #0077B5; /* LinkedIn blue */
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 28px;
 }
 
 p {
     text-align: center;
     font-size: 16px;
-    color: #606770; /* Subtiele grijstint */
+    color: #606770; /* Subtle gray tint */
+    margin: 10px auto;
+    max-width: 800px;
 }
 
-/* Buttons */
+/* Button Styles */
 button {
     background-color: #0073b1;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-/* Specifieke styling voor de container van de drie knoppen */
+button:hover {
+    background-color: #005f87; /* Darker blue on hover */
+    transform: scale(1.05); /* Subtle scaling effect */
+}
+
+/* Container for Buttons */
 .button-container {
-    display: flex; /* Plaats de knoppen in een flex container */
-    justify-content: space-between; /* Ruimte tussen de knoppen */
-    gap: 10px; /* Ruimte tussen de knoppen */
-    justify-content: center; /* Optioneel: centreert de knoppen als je geen space-between wilt */
-    margin-top: 20px; /* Optioneel: ruimte boven de knoppen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
-/* Tables */
+/* Table Styles */
 #tweet-container {
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
     font-size: 14px;
-    width: 100%; /* Table will take up full width of the parent container */
-    table-layout: auto; /* Allows dynamic resizing based on content */
-    border-collapse: collapse; /* Collapse borders for a cleaner look */
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+.plotly-table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
 }
 
 .plotly-table .header {
-    background-color: #0073b1; /* LinkedIn Blue */
+    background-color: #0073b1;
     color: white;
+    padding: 12px;
 }
 
 .plotly-table .cell {
     padding: 8px 12px;
-    border-bottom: 1px solid #e1e1e1; /* Light gray borders */
+    border-bottom: 1px solid #e1e1e1;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .plotly-table .cell:hover {
-    background-color: #f5f5f5; /* Subtle hover effect */
+    background-color: #f5f5f5;
 }
 
-/* Optional: Style for header row */
-.plotly-table .header th {
-    font-weight: bold;
-    padding: 12px;
-}
-
-/* Ensures the table adjusts its width according to content */
 .plotly-table td, .plotly-table th {
-    word-wrap: break-word; /* Allows words to wrap within the cell */
-    white-space: normal; /* Prevents text from being cut off */
-    max-width: 1000px; /* Optional: Adjust the max-width for wide content */
+    word-wrap: break-word;
+    white-space: nowrap;
+    padding: 15px;
+    max-width: 1000px;
+}
+
+/* Table font size adjustment for small screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .plotly-table {
+        font-size: 12px;
+    }
+
+    img {
+        width: 90%; /* Ensure images resize to fit the container */
+    }
+
+    .plotly-table td, .plotly-table th {
+        padding: 10px;
+    }
+}
+
+/* Image Container Styling */
+.image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+}
+
+img {
+    max-width: 100%;
+    width: 600px;
+    height: auto;
+    border-radius: 8px; /* Added rounded corners for images */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow around images */
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 1024px) {
+    img {
+        width: 80%; /* Reduce image width on larger screens */
+    }
+}
+/* Header styling */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff; /* Background color for header */
+}
+
+/* Logo container */
+.logo-container {
+    max-width: 150px; /* Limit the width of the logo */
+}
+
+/* Logo styling */
+.logo {
+    max-width: 100%; /* Make the logo responsive */
+    height: auto; /* Maintain aspect ratio */
 }

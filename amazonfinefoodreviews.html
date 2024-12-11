@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <script src="configuration.js"></script> <!-- contains fetch URLs -->
+
+    <script>
+        // Home button
+        function goHome(){
+            window.location.href = homeUrl[0]
+        }
+    </script>
+    
+
+</head>
+
+<body>
+    <h1>Amazon Fine Food Reviews</h1>
+
+    <div class="button-container">
+        <button onclick="goHome()">Home</button>
+    </div>
+
+    <h3>Enhancing user experience and product insights with the <a href="https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews">Amazon Fine Food Reviews Dataset</a>.</h3>
+    <h4>As a data scientist, I want to analyze the Amazon Fine Food Reviews dataset using descriptive, predictive, prescriptive, and advanced NLP technique (Ollama), so that I can gain actionable insights into product reviews, predict customer sentiment and suggest personalized product recommendations to improve the overall user experience and product offerings on Amazon.</h4>
+
+    <div class="descriptive-analysis">
+        <p><b>1. Descriptive analysis</b></p>
+    </div>
+
+    <div class="image-container">
+        <img src="images/distribution_of_ratings.png" alt="Distribution of ratings"><br>
+        <img src="images/distribution_of_review_lengths.png" alt="Distribution of review lengths"><br>
+        <img src="images/most_common_words.png" alt="Most common words"><br>
+        <img src="images/sentiment_distribution_score.png" alt="Sentiment distribution score"><br>
+    </div>
+
+    <div class="predictive-analysis">
+        <p><b>2. Predictive analysis</b></p>
+    </div>
+
+    <div class="image-container">
+        <img src="images/confusion_matrix.png" alt="Confusion matrix"><br>
+        <img src="images/roc_curve.png" alt="ROC curve"><br>
+    </div>
+
+    <div class="prescriptive-analysis">
+        <p><b>3. Prescriptive analysis</b></p>
+        <p>Logistic regression for binary classification of sentiment of reviews.</p>
+    </div>
+
+    <div class="image-container">
+        <img src="" alt=""><br>
+    </div>
+
+    <div class="prescriptive-analysis">
+        <p><b>4. Advanced NLP analysis</b></p>
+        <p>Using Ollama for sentiment analysis.</p>
+    </div>
+
+    <div class="image-container">
+        <img src="" alt=""><br>
+    </div>
+
+</body>
+
+</html>
